@@ -15,7 +15,9 @@ require("dotenv").config();
 const { ethers } = require("hardhat");
 
 async function main() {
-  const seamless = await ethers.deployContract("Seamless");
+  const seamless = await ethers.deployContract("Seamless", [
+    process.env.VAULT_ADDRESS,
+  ]);
 
   const tx = await seamless.waitForDeployment();
   console.log(tx, "<<< SEAMLESS");

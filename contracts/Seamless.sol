@@ -7,14 +7,11 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract Seamless is ReentrancyGuard, Ownable {
     event TokenSent(string indexed name);
-    event ChangeOwnership(address indexed newOwner);
     event ChangeVaultAddress(address indexed newVaultAddress);
 
-    address private _owner;
     address private _vaultAddress;
 
-    constructor(address vaultAddress) {
-        _owner = msg.sender;
+    constructor(address vaultAddress) Ownable() {
         _vaultAddress = vaultAddress;
     }
 
@@ -31,17 +28,8 @@ contract Seamless is ReentrancyGuard, Ownable {
         emit TokenSent(_name);
     }
 
-    function get_owner() public view returns(address) {
-        return _owner;
-    }
-
-    function get_vault_address() public view returns(address) {
+    function vault_address() public view returns(address) {
         return _vaultAddress;
-    }
-
-    function transfer_ownership(address newOwner) public nonReentrant onlyOwner {
-        _owner = newOwner;
-        emit ChangeOwnership(newOwner);
     }
 
     function update_router(address newVaultAddress) public nonReentrant onlyOwner {
