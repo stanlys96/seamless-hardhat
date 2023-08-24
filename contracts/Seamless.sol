@@ -15,13 +15,13 @@ contract Seamless is ReentrancyGuard, Ownable {
         _vaultAddress = vaultAddress;
     }
 
-    function transfer(address _token, string memory _name) external payable nonReentrant {
+    function transfer_erc20(address _token, string memory _name) external payable nonReentrant {
         require(msg.value > 0, "Amount must be more than zero!");
         IERC20(_token).transferFrom(msg.sender, _vaultAddress, msg.value);
         emit TokenSent(_name);
     }
 
-    function transfer_erc20(string memory _name) external payable nonReentrant {
+    function transfer(string memory _name) external payable nonReentrant {
         require(msg.value > 0, "Amount must be more than zero!");
         (bool success, ) = payable(_vaultAddress).call{value: msg.value}("");
         require(success, "Transfer failed!");
